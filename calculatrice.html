@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Calculatrice</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+
+<style>
+	*{
+		font-family: "Lucida Sans", sans-serif;
+		padding:12px;
+	}
+
+	#calculatrice{
+		background-color: orange;
+		width:30%;
+		border-radius: 10px;
+	}
+
+	#calculatrice #ecran{
+		background-color: black;
+		color:white;
+		text-align: center;
+		padding:19px;
+		border-radius: 10px;
+	}
+
+	#calculatrice #partie-boutons{
+		padding:0px;
+	}
+
+	#calculatrice #partie-boutons .ligne{
+		display:flex;
+		justify-content: space-around;
+		background-color: rgba(165,42,42,0.75);
+
+		margin: 2px;
+		padding:0px;
+	}
+
+	#calculatrice #partie-boutons .ligne .element{
+		margin:12px;
+		background-color: #b35900;
+		border-radius: 12px;
+		align-content: space-between;
+	}
+
+	#calculatrice #operateurs{
+		display:flex;
+	}
+
+	#calculatrice #operateurs .ligne{
+		padding:12px;
+	}
+
+</style>
+
+<script>
+	$(document).ready(function(){
+		
+		var res = "";
+		var res2 = '';
+		var memoire_operateur =-1;
+		//0:+ 1:- 2:* 3:/
+		
+		$('.nb').click(function (){
+			if(memoire_operateur==-1){
+				res += $(this).text();
+				console.log(res);
+				$('#ecran').text(res);
+			}else{
+				res2+=$(this).text();
+				console.log(res2);
+				$('#ecran').text(res2);
+			}
+		});
+
+		$('.operateur').click(function(){
+			let operateur_string = $(this).text();
+			switch(operateur_string){
+				case '+':
+					memoire_operateur =0
+					console.log('La touche addition a été cliquée');
+					break;
+				case '-':
+					memoire_operateur =1
+					console.log('Soustraction');
+					break;
+				case '*':
+					memoire_operateur =2
+					console.log('Multiplication');
+					break;
+				case '/':
+					memoire_operateur =3
+					console.log('Division');
+					break;
+			}
+			$('#ecran').text("");//clear screen
+		});
+
+		$('.equals').click(function(){
+			res=parseInt(res);
+			res2=parseInt(res2);
+			switch(memoire_operateur){
+				case 0:
+					res=res+res2;
+					console.log(res);
+					break;
+				case 1:
+					res-=res2;
+					break;
+				case 2:
+					res*=res2;
+					break;
+				case 3:
+					res/=res2;
+					break;
+			}
+			$('#ecran').text(res);
+			res2=0;
+		});
+
+		$('.clear').mousedown(function(){
+			$('#ecran').text("Résultats");
+			res = "";
+			res2 = '';
+			memoire_operateur =-1;
+		});
+
+	});
+
+</script>
+
+<body>
+	<div id=calculatrice>
+		
+		<div id="ecran">Résultats</div>
+		
+		<div id="partie-boutons">
+			<div class="ligne">
+				
+				<div class="element nb">1</div><div class="element nb">2</div> 
+
+				<div class="element nb">3</div><div class="element nb">4</div> 
+			
+			</div>
+
+			<div class="ligne">
+				
+				<div class="element nb">5</div><div class="element nb">6</div> 
+
+				<div class="element nb">7</div><div class="element nb">8</div> 
+			</div>
+
+			<div class="ligne">
+				<div class="element operateur">+</div>
+				<div class="element operateur">-</div>
+				<div class="element operateur">*</div>
+				<div class="element operateur">/</div>
+			</div>
+			<div class="ligne">
+				<div class="element equals">=</div>
+				<div class="element clear">C</div>
+			</div>
+
+		</div>
+		
+	</div>
+</body>
+</html>
